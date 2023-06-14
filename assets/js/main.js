@@ -11,6 +11,9 @@
 // })
 var searchedCities = $(document.getElementById('searchHistory'));
 var cities = JSON.parse(localStorage.getItem('cities')) || [];
+
+
+
 $(document).ready(function () {
     $('#searchButton').on('click', function () {
         var cityName = $('#searchBar').val();
@@ -24,7 +27,11 @@ $(document).ready(function () {
             .then(function (data) {
                 console.log('Fetch Response \n-------------');
                 console.log(data);
+                console.log(data.main);
+                console.log(data.weather);
             });
+            localStorage.setItem(cityName, cityName);
+            
             
 
     })
@@ -36,9 +43,38 @@ function createSearchHistory() {
         var city = cities[i];
         var cityButtonEl = $('<button>');
         cityButtonEl.textContent = city;
-    }
-}
+        city.push($('#searchBar').val());
 
+        $.each(city, function(index, value){
+            const btn = document.createElement(cityButtonEl);
+            btn.innnerHTML = value;
+            document.getElementById('searchHistory').appendChild(cities);
+        });
+    }
+};
+
+function displayWeather (data) {
+    const todayWeather = data.main;
+    const today = document.getElementById('currentDay');
+
+    const display = document.createElement$('<p>');
+    display.innnerHTML = todayWeather;
+    today.appendChild(display);
+};
+
+// function displayForecast(data) {
+//     const thisWeek = data. ;
+//     const fiveDay = document.getElementById('forecast');
+//     const display = document.createElement$('<p>')
+//     display.innnerHTML = thisWeek;
+//     fiveDay.appendChild(display);
+//     for (let i=0; i < display.length; i++){
+//         fiveDay.appendSiblings(display);
+//     }
+// };
+createSearchHistory();
+// displayForecast();
+displayWeather();
 
 
     //search function
